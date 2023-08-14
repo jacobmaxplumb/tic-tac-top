@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { ListForm } from './components/ListForm';
+import { ListItems } from './components/ListItems';
 
 function App() {
+  const [listItems, setListItems] = useState<any[]>(['hello', 'goodbye']);
+
+  const addListItem = (listItem: any) => {
+    setListItems([...listItems, listItem]);
+  }
+
+  const deleteListItem = (listItem: any) => {
+    const newListItems = [...listItems];
+    const indexOfItemToDelete = newListItems.findIndex(item => item === listItem);
+    newListItems.splice(indexOfItemToDelete, 1);
+    setListItems(newListItems);
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ListForm addItem={addListItem}/>
+      <ListItems listItems={listItems} deleteListItem={deleteListItem}/>
     </div>
   );
 }
